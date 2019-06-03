@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="test.css">
+  <title>Mathowitz HS Math Tasks</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body>
+  <div class="row">
+    <div class="input-field col s11 m11 offset-m1 offset-s1">
+      <img style="width: 100px;" src="https://101clipart.com/wp-content/uploads/05/Math%20Is%20Fun%20Clipart%2020.jpg">
+        <span style="font-weight:bold; font-size:40px; position:relative; top:-35px; left: 20px">High School Math Tasks</span>
+      </img>
+    </div>
+  </div>
+  <p>
+  </p>
+  <div class="row">
+    <div class="input-field col s2 m2 offset-m1 offset-s1">
+      <select id="Genre" multiple>
+        <option value="None" disabled selected>Choose Genre(s)</option>
+        <option value="Action - Adventure">Action / Adventure</option>
+        <option value="Dystopia">Dystopia</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Graphic Novel">Graphic Novel</option>
+        <option value="Historical Fiction">Historical Fiction</option>
+        <option value="Horror">Horror</option>
+        <option value="Humor">Humor</option>
+        <option value="Literary Fiction">Literary Fiction</option>
+        <option value="Mystery">Mystery</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+        <option value="Realistic Fiction">Realistic Fiction</option>
+        <option value="Poetry">Poetry</option>
+        <option value="Science Fiction">Science Fiction</option>
+        <option value="Short Stories">Short Stories</option>
+        <option value="Thriller - Suspense">Thriller / Suspense</option>
+        <option value="Young Adult">Young Adult</option>
+        <option value="Other">Young Adult</option>
+      </select>
+      <label>Genre</label>
+      <button class="btn waves-effect waves-light red darken-2" onclick="genreSelector()" type="submit">Genre
+      </button>
+    </div>
+    <div class="input-field col s2 m2">
+      <select id="year" multiple>
+        <option value="-1" disabled selected>Choose Year(s)</option>
+        <option value="Faculty/Staff" selected>Faculty/Staff</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        <option value="2018">2018</option>
+        <option value="2017">2017</option>
+      </select>
+      <label>Graduation Year</label>
+      <button class="btn waves-effect waves-light red darken-2" onclick="yearSelector()" type="submit">Year
+      </button>
+    </div>
+    <div class="input-field col s2 m2">
+      <input placeholder="Book Name" id="Title" type="text">
+      <label for="Title">Title</label>
+      <button class="btn waves-effect waves-light red darken-2" onclick="titleSelector()" type="submit">Title
+      </button>
+    </div>
+    <div class="input-field col s2 m2">
+      <input placeholder="Author Name" id="Author" type="text">
+      <label for="Author">Author</label>
+      <button class="btn waves-effect waves-light red darken-2" onclick="authorSelector()" type="submit">Author
+      </button>
+    </div>
+    <div class="input-field col s2 m2 offset-m1 offset-s1">
+      <input placeholder="Author Name" id="hidden" type="text">
+      <label for="Author" id="hidden">Author</label>
+      <button class="btn waves-effect waves-light blue darken-4" onclick="multipleSelector()" type="submit">Multiple
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="wrapper">
+  <div id="columns">
+  </div>
+</div>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+</body>
+</html>
+
+
+<script>
+$(document).ready(function() {
+  $('select').material_select();
+  yearSelector();
+});
+
+function genreA() {
+  var genreFormula = "OR(";
+  var genresSelector = document.getElementById("Genre");
+  var selectedGenres = genresSelector.selectedOptions;
+  var searchFront = 'SEARCH("';
+  var searchBack = '", {Genre}) >= 1, '
+  for (var i=0; i<selectedGenres.length;i++){
+    genreFormula += searchFront + selectedGenres[i].value + searchBack;
+  }
+  genreFormula = genreFormula.slice(0, genreFormula.length-2);
+  genreFormula += ")";
+  return genreFormula;
+}
+function yearA() {
+  var genreFormula = "OR(";
+  var genresSelector = document.getElementById("year");
+  var selectedGenres = genresSelector.selectedOptions;
+  var searchFront = 'SEARCH("';
+  var searchBack = '", {Graduation Year}) >= 1, '
+  for (var i=0; i<selectedGenres.length;i++){
+    genreFormula += searchFront + selectedGenres[i].value + searchBack;
+  }
+  genreFormula = genreFormula.slice(0, genreFormula.length-2);
+  genreFormula += ")";
+  return genreFormula;
+}
+function titleA(){
+  var searchText = document.getElementById("Title").value;
+  var titleFormula = 'SEARCH("'+searchText.toLowerCase()+'", {Lower Title})'
+  return titleFormula;
+}
+
+function authorA(){
+  var searchText = document.getElementById("Author").value;
+  var authorFormula = 'SEARCH("'+searchText.toLowerCase()+'", {Name})'
+  return authorFormula;
+}
+
+function multipleSelector() {
+  var formula = "AND(";
+  formula += yearA() + "," + genreA() + "," + titleA() + "," + authorA() + ")";
+  populateBooks(formula);
+}
+
+function genreSelector() {
+  var genreFormula = "OR(";
+  var genresSelector = document.getElementById("Genre");
+  var selectedGenres = genresSelector.selectedOptions;
+  var searchFront = 'SEARCH("';
+  var searchBack = '", {Genre}) >= 1, '
+  for (var i=0; i<selectedGenres.length;i++){
+    genreFormula += searchFront + selectedGenres[i].value + searchBack;
+  }
+  genreFormula = genreFormula.slice(0, genreFormula.length-2);
+  genreFormula += ")";
+  populateBooks(genreFormula);
+}
+function yearSelector() {
+  var genreFormula = "OR(";
+  var genresSelector = document.getElementById("year");
+  var selectedGenres = genresSelector.selectedOptions;
+  var searchFront = 'SEARCH("';
+  var searchBack = '", {Graduation Year}) >= 1, '
+  for (var i=0; i<selectedGenres.length;i++){
+    genreFormula += searchFront + selectedGenres[i].value + searchBack;
+  }
+  genreFormula = genreFormula.slice(0, genreFormula.length-2);
+  genreFormula += ")";
+  populateBooks(genreFormula);
+}
+function titleSelector(){
+  var searchText = document.getElementById("Title").value;
+  var titleFormula = 'SEARCH("'+searchText.toLowerCase()+'", {Lower Title})'
+  populateBooks(titleFormula);
+}
+
+function authorSelector(){
+  var searchText = document.getElementById("Author").value;
+  var authorFormula = 'SEARCH("'+searchText.toLowerCase()+'", {Name})'
+  populateBooks(authorFormula);
+}
+
+function card(image, title, author, disc, writer){
+  var row = document.createElement("div");
+
+  var col = document.createElement("div");
+  col.setAttribute("class", "pin");
+
+  var card = document.createElement("div");
+  card.setAttribute("class", "card");
+
+  var cardImg = document.createElement("div");
+  cardImg.setAttribute("class", "card-image");
+
+  var img = document.createElement("img");
+  img.src = image;
+
+  var cardTitle = document.createElement("span");
+  cardTitle.setAttribute("class", "card-title");
+  cardTitle.innerHTML = title;
+
+  var cardAuth = document.createElement("span");
+  cardAuth.setAttribute("class", "card-title");
+  cardAuth.innerHTML = author;
+
+  var cardTxt = document.createElement("p");
+  cardTxt.innerHTML = disc + "<br></br> - ";
+
+  var writ = document.createElement("b");
+  writ.innerHTML = writer;
+
+  var cardCont = document.createElement("div");
+  cardCont.setAttribute("class", "card-content");
+
+  row.appendChild(col);
+  col.appendChild(card);
+  card.appendChild(cardImg);
+  cardImg.appendChild(img);
+  card.appendChild(cardCont);
+  cardCont.appendChild(cardTitle);
+  cardCont.appendChild(cardAuth);
+  cardCont.appendChild(cardTxt);
+  cardTxt.appendChild(writ);
+  document.getElementById("columns").appendChild(col);
+}
+
+function populateBooks(query) {
+  document.getElementById("columns").innerHTML = "";
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = alertContents;
+  var url = "https://api.airtable.com/v0/appOekLxB8omdJxlM/Imported%20Table?maxRecords=200&view=Main%20View&filterByFormula=" + query
+  var key = "keyyrn6La23SJw2DY";
+  request.open('GET', url);
+  request.setRequestHeader('Authorization', 'Bearer ' + key)
+  var response = request.send(null);
+  function alertContents() {
+    if (request.readyState === XMLHttpRequest.DONE) {
+      if (request.status === 200) {
+        var data = JSON.parse(request.responseText).records;
+        for(var i = 0; i < data.length; i++) {
+          description = data[i]["fields"]["Book Review"];
+          title = data[i]["fields"]['Title'];
+          author = data[i]["fields"]['Author first name']+ " " + data[i]["fields"]['Author last name'];
+          src = data[i]["fields"]["URL"];
+          writer = data[i]["fields"]["First Name"] + " " + data[i]["fields"]["Last Name"] + " " + data[i]["fields"]["Graduation Year"];
+
+          card(src, title, author, description, writer);
+        }
+      }
+    }
+  }
+}
+</script>
