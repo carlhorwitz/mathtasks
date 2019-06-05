@@ -217,9 +217,6 @@ function card(image, title, author, disc, writer){
   cardTitle.setAttribute("class", "card-title");
   cardTitle.innerHTML = title;
 
-  var cardAuth = document.createElement("span");
-  cardAuth.setAttribute("class", "card-title");
-  cardAuth.innerHTML = author;
 
   var cardTxt = document.createElement("p");
   cardTxt.innerHTML = disc + "<br></br> - ";
@@ -258,10 +255,8 @@ function populateBooks(query) {
         for(var i = 0; i < data.length; i++) {
           description = data[i]["fields"]["Description"];
           title = data[i]["fields"]['Title'];
-          author = data[i]["fields"]['Author first name']+ " " + data[i]["fields"]['Author last name'];
           src = data[i]["fields"]["Thumbnail"][0].url;
-          console.log(src);
-          writer = data[i]["fields"]["First Name"] + " " + data[i]["fields"]["Last Name"] + " " + data[i]["fields"]["Graduation Year"];
+          writer = data[i]["fields"]["Source"];
 
           card(src, title, author, description, writer);
         }
