@@ -3,10 +3,8 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KDS Book Recs</title>
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <title>Math Tasks</title>
+
 </head>
 <body>
   <br>
@@ -33,46 +31,19 @@
         <option value="Young Adult">Young Adult</option>
         <option value="Other">Young Adult</option>
       </select>
-      <label>Genre</label>
+      <label>Course</label>
       <button class="btn waves-effect waves-light red darken-2" onclick="genreSelector()" type="submit">Course
       </button>
     </div>
+
     <div class="input-field col s2 m2">
-      <select id="year" multiple>
-        <option value="-1" disabled selected>Choose Year(s)</option>
-        <option value="Faculty/Staff" selected>Faculty/Staff</option>
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-        <option value="2021">2021</option>
-        <option value="2020">2020</option>
-        <option value="2019">2019</option>
-        <option value="2018">2018</option>
-        <option value="2017">2017</option>
-      </select>
-      <label>Graduation Year</label>
-      <button class="btn waves-effect waves-light red darken-2" onclick="yearSelector()" type="submit">Year
+      <input placeholder="Keyword" id="Title" type="text">
+      <label for="Title">Keyword</label>
+      <button class="btn waves-effect waves-light red darken-2" onclick="titleSelector()" type="submit">Keyword
       </button>
     </div>
-    <div class="input-field col s2 m2">
-      <input placeholder="Book Name" id="Title" type="text">
-      <label for="Title">Title</label>
-      <button class="btn waves-effect waves-light red darken-2" onclick="titleSelector()" type="submit">Title
-      </button>
-    </div>
-    <div class="input-field col s2 m2">
-      <input placeholder="Author Name" id="Author" type="text">
-      <label for="Author">Author</label>
-      <button class="btn waves-effect waves-light red darken-2" onclick="authorSelector()" type="submit">Author
-      </button>
-    </div>
-    <div class="input-field col s2 m2 offset-m1 offset-s1">
-      <input placeholder="Author Name" id="hidden" type="text">
-      <label for="Author" id="hidden">Author</label>
-      <button class="btn waves-effect waves-light blue darken-4" onclick="multipleSelector()" type="submit">Multiple
-      </button>
-    </div>
+  
+  
   </div>
 </div>
 <style>
@@ -217,7 +188,7 @@ function yearSelector() {
 }
 function titleSelector(){
   var searchText = document.getElementById("Title").value;
-  var titleFormula = 'SEARCH("'+searchText.toLowerCase()+'", {Lower Title})'
+  var titleFormula = 'SEARCH("'+searchText.toLowerCase()+'", {Search_Terms})'
   populateBooks(titleFormula);
 }
 
