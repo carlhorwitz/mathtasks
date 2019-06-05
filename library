@@ -3,27 +3,19 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" type="text/css" href="test.css">
-  <title>Mathowitz HS Math Tasks</title>
+  <title>KDS Book Recs</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 </head>
 <body>
-  <div class="row">
-    <div class="input-field col s11 m11 offset-m1 offset-s1">
-      <img style="width: 100px;" src="https://101clipart.com/wp-content/uploads/05/Math%20Is%20Fun%20Clipart%2020.jpg">
-        <span style="font-weight:bold; font-size:40px; position:relative; top:-35px; left: 20px">High School Math Tasks</span>
-      </img>
-    </div>
-  </div>
-  <p>
-  </p>
+  <br>
+  <br>
   <div class="row">
     <div class="input-field col s2 m2 offset-m1 offset-s1">
       <select id="Genre" multiple>
-        <option value="None" disabled selected>Choose Genre(s)</option>
-        <option value="Action - Adventure">Action / Adventure</option>
+        <option value="None" disabled selected>Choose Course(s)</option>
+        <option value="Geometry">Geometry</option>
         <option value="Dystopia">Dystopia</option>
         <option value="Fantasy">Fantasy</option>
         <option value="Graphic Novel">Graphic Novel</option>
@@ -42,7 +34,7 @@
         <option value="Other">Young Adult</option>
       </select>
       <label>Genre</label>
-      <button class="btn waves-effect waves-light red darken-2" onclick="genreSelector()" type="submit">Genre
+      <button class="btn waves-effect waves-light red darken-2" onclick="genreSelector()" type="submit">Course
       </button>
     </div>
     <div class="input-field col s2 m2">
@@ -83,7 +75,58 @@
     </div>
   </div>
 </div>
+<style>
+  #wrapper {
+	width: 90%;
+	max-width: 2000px;
+	min-width: 800px;
+	margin: 50px auto;
+}
 
+#hidden {
+	visibility: hidden;
+}
+
+#columns {
+	-webkit-column-gap: 10px;
+	-webkit-column-fill: auto;
+	-moz-column-gap: 10px;
+	-moz-column-fill: auto;
+	column-gap: 15px;
+	column-fill: auto;
+}
+
+.pin {
+	display: inline-block;
+	padding: 5px;
+	padding-bottom: 5px;
+}
+
+@media (min-width: 400px) {
+	#columns {
+		-webkit-column-count: 2;
+		-moz-column-count: 2;
+		column-count: 2;
+	}
+}
+
+@media (min-width: 960px) {
+	#columns {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
+	}
+}
+
+@media (min-width: 1100px) {
+	#columns {
+		-webkit-column-count: 4;
+		-moz-column-count: 4;
+		column-count: 4;
+	}
+}
+
+</style>
 <div id="wrapper">
   <div id="columns">
   </div>
@@ -151,7 +194,7 @@ function genreSelector() {
   var genresSelector = document.getElementById("Genre");
   var selectedGenres = genresSelector.selectedOptions;
   var searchFront = 'SEARCH("';
-  var searchBack = '", {Genre}) >= 1, '
+  var searchBack = '", {Course}) >= 1, '
   for (var i=0; i<selectedGenres.length;i++){
     genreFormula += searchFront + selectedGenres[i].value + searchBack;
   }
@@ -198,7 +241,7 @@ function card(image, title, author, disc, writer){
 
   var img = document.createElement("img");
   img.src = image;
-
+  
   var cardTitle = document.createElement("span");
   cardTitle.setAttribute("class", "card-title");
   cardTitle.innerHTML = title;
@@ -232,8 +275,8 @@ function populateBooks(query) {
   document.getElementById("columns").innerHTML = "";
   var request = new XMLHttpRequest();
   request.onreadystatechange = alertContents;
-  var url = "https://api.airtable.com/v0/appOekLxB8omdJxlM/Imported%20Table?maxRecords=200&view=Main%20View&filterByFormula=" + query
-  var key = "keyyrn6La23SJw2DY";
+  var url = "https://api.airtable.com/v0/appY798jitnuEXzjT/Library?maxRecords=200&view=Grid%20view&filterByFormula=" + query
+  var key = "keyxcbRWx3OOy6pco";
   request.open('GET', url);
   request.setRequestHeader('Authorization', 'Bearer ' + key)
   var response = request.send(null);
@@ -242,10 +285,11 @@ function populateBooks(query) {
       if (request.status === 200) {
         var data = JSON.parse(request.responseText).records;
         for(var i = 0; i < data.length; i++) {
-          description = data[i]["fields"]["Book Review"];
+          description = data[i]["fields"]["Description"];
           title = data[i]["fields"]['Title'];
           author = data[i]["fields"]['Author first name']+ " " + data[i]["fields"]['Author last name'];
-          src = data[i]["fields"]["URL"];
+          src = data[i]["fields"]["Thumbnail"][0].url;
+          console.log(src);
           writer = data[i]["fields"]["First Name"] + " " + data[i]["fields"]["Last Name"] + " " + data[i]["fields"]["Graduation Year"];
 
           card(src, title, author, description, writer);
