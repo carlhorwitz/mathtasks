@@ -88,7 +88,13 @@ a {
 		column-count: 2;
 	}
 }
-
+	
+#Tag{border-radius: 25px;
+ background: #73AD21;
+ padding: 20px; 
+	}
+	
+	
 @media (min-width: 960px) {
 	#columns {
 		-webkit-column-count: 3;
@@ -236,6 +242,7 @@ function card(image, title, disc, writer, tag){
 
 var cardTag = document.createElement("p");
   cardTag.innerHTML = tag;	
+	cardTag.setAttribute("id","Tag");
 
   var writ = document.createElement("a");
 	writ.setAttribute('href',writer);
