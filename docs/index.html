@@ -211,7 +211,7 @@ function authorSelector(){
   populateBooks(authorFormula);
 }
 
-function card(image, title, disc, writer){
+function card(image, title, disc, writer, tag){
   var row = document.createElement("div");
 
   var col = document.createElement("div");
@@ -233,6 +233,9 @@ function card(image, title, disc, writer){
 
   var cardTxt = document.createElement("p");
   cardTxt.innerHTML = disc + "<br></br> - ";
+
+var cardTag = document.createElement("p");
+  cardTag.innerHTML = tag;	
 
   var writ = document.createElement("a");
 	writ.setAttribute('href',writer);
@@ -270,8 +273,9 @@ function populateBooks(query) {
           title = data[i]["fields"]['Title'];
           src = data[i]["fields"]["Thumbnail"][0].url;
           writer = data[i]["fields"]["Source"];
+		tag = data[i]["fields"]["Course"];
 
-          card(src, title, description, writer);
+          card(src, title, description, writer, tag);
         }
       }
     }
