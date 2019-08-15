@@ -234,7 +234,8 @@ function card(image, title, disc, writer){
   var cardTxt = document.createElement("p");
   cardTxt.innerHTML = disc + "<br></br> - ";
 
-  var writ = document.createElement("b");
+  var writ = document.createElement("a");
+	writ.setAttribute('href',writer);
   writ.innerHTML = writer;
 
   var cardCont = document.createElement("div");
